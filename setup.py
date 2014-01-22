@@ -14,6 +14,8 @@ requires = [
     'pyramid_debugtoolbar',
     'zope.sqlalchemy',
     'waitress',
+    'psycopg2',
+    'alembic'
     ]
 
 setup(name='linkme',
