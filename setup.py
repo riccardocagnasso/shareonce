@@ -15,7 +15,9 @@ requires = [
     'zope.sqlalchemy',
     'waitress',
     'psycopg2',
-    'alembic'
+    'alembic',
+    'assetgen',
+    'pyramid_assetgen'
     ]
 
 setup(name='linkme',
@@ -28,9 +30,9 @@ setup(name='linkme',
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
         ],
-      author='',
-      author_email='',
-      url='',
+      author='Riccardo Cagnasso',
+      author_email='riccardo@phascode.org',
+      url='www.linkme.com',
       keywords='web wsgi bfg pylons pyramid',
       packages=find_packages(),
       include_package_data=True,
