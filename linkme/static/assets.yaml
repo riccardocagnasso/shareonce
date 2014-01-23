@@ -4,29 +4,29 @@ generate:
     source:
       - src/foundation/js/vendor/modernizr.js
       - src/foundation/js/vendor/jquery.js
-      - src/foundation/js/foundation.js
-      - src/foundation/js/foundation/foundation/foundation.abide.js
-      - src/foundation/js/foundation/foundation/foundation.interchange.js
-      - src/foundation/js/foundation/foundation/foundation.accordion.js
-      - src/foundation/js/foundation/foundation/foundation.joyride.js
-      - src/foundation/js/foundation/foundation/foundation.reveal.js
-      - src/foundation/js/foundation/foundation/foundation.alert.js
-      - src/foundation/js/foundation/foundation/foundation.js
-      - src/foundation/js/foundation/foundation/foundation.tab.js
-      - src/foundation/js/foundation/foundation/foundation.clearing.js
-      - src/foundation/js/foundation/foundation/foundation.magellan.js
-      - src/foundation/js/foundation/foundation/foundation.tooltip.js
-      - src/foundation/js/foundation/foundation/foundation.dropdown.js
-      - src/foundation/js/foundation/foundation/foundation.offcanvas.js
-      - src/foundation/js/foundation/foundation/foundation.orbit.js
-      - src/foundation/js/foundation/foundation/foundation.topbar.js
+      - src/foundation/js/foundation/foundation.js
+      - src/foundation/js/foundation/foundation.abide.js
+      - src/foundation/js/foundation/foundation.interchange.js
+      - src/foundation/js/foundation/foundation.accordion.js
+      - src/foundation/js/foundation/foundation.joyride.js
+      - src/foundation/js/foundation/foundation.reveal.js
+      - src/foundation/js/foundation/foundation.alert.js
+      - src/foundation/js/foundation/foundation.js
+      - src/foundation/js/foundation/foundation.tab.js
+      - src/foundation/js/foundation/foundation.clearing.js
+      - src/foundation/js/foundation/foundation.magellan.js
+      - src/foundation/js/foundation/foundation.tooltip.js
+      - src/foundation/js/foundation/foundation.dropdown.js
+      - src/foundation/js/foundation/foundation.offcanvas.js
+      - src/foundation/js/foundation/foundation.orbit.js
+      - src/foundation/js/foundation/foundation.topbar.js
 
 - css/stylesheet.css:
     source:
       - src/foundation/css/normalize.css
       - src/foundation/css/foundation.css
 
-output.directory: build
+output.directory: dist
 output.hashed:  true
 output.manifest: assets.json
 css.compress: true

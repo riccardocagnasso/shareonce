@@ -14,7 +14,18 @@ def main(global_config, **settings):
     DBSession.configure(bind=engine)
     Base.metadata.bind = engine
     config = Configurator(settings=settings)
+
+    #assetgen
+    config.include('pyramid_assetgen')
+
+    config.add_static_view(name='s', path='linkme:static/build',
+                                cache_max_age=3600)
+    config.add_assetgen_manifest(
+        'linkme:static/dist',
+        manifest_file="linkme:static/assets.json")
+
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_route('home', '/')
+
     config.scan()
     return config.make_wsgi_app()

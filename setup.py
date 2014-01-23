@@ -17,7 +17,9 @@ requires = [
     'psycopg2',
     'alembic',
     'assetgen',
-    'pyramid_assetgen'
+    'pyramid_assetgen',
+    'PIL',
+    'python-magic'
     ]
 
 setup(name='linkme',
