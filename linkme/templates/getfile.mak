@@ -1,7 +1,5 @@
 <%inherit file="master.mak"/>
 
-<br>
-
 <div class="row">
     <div class="columns">
         <p class="panel">

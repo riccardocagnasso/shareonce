@@ -1,7 +1,12 @@
 <%inherit file="master.mak"/>
 
 <div class="row">
-    <input id="fileupload" type="file" name="file" data-url="/upload">
+    <button class="button success round fileinput-button">
+        <i class="fi-shield"></i>
+        <span>Select a file</span>
+        <!-- The file input field used as target for the file upload widget -->
+        <input id="fileupload" type="file" name="file" data-url="/upload">
+    </button> or simply <strong>drop</strong> one on the page.
 
     <div id="uploadbar" class="progress radius round">
       <span class="meter" style="width: 0%"></span>

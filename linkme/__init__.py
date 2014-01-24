@@ -54,6 +54,7 @@ def main(global_config, **settings):
     DBSession.configure(bind=engine)
     Base.metadata.bind = engine
     config = Configurator(settings=settings)
+    config.include('pyramid_mako')
 
     upload_directory.set_base(settings['upload_directory'])
 

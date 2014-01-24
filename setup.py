@@ -19,7 +19,8 @@ requires = [
     'assetgen',
     'pyramid_assetgen',
     'PIL',
-    'python-magic'
+    'python-magic',
+    'pyramid-mako'
     ]
 
 setup(name='linkme',

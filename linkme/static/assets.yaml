@@ -31,6 +31,11 @@ generate:
     source:
         - src/foundation/css/normalize.css
         - src/foundation/css/foundation.css
+        - src/css/jquery.fileupload.css
+        - src/foundation/fonts/foundation-icons.css
+
+    embed.path.root: src/foundation/fonts
+    embed.url.base: /.static/
 
 output.directory: dist
 output.hashed:  true
