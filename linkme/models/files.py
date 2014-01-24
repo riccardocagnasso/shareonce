@@ -27,6 +27,7 @@ class Upload(Base):
     hash = Column(Unicode, ForeignKey('file.hash', onupdate='CASCADE',
                   ondelete='CASCADE'))
     file = relationship('File')
+    tickets = Column(Integer, default=1)
 
     def __init__(self, hash):
         self.hash = hash
@@ -50,7 +51,8 @@ class Upload(Base):
     @classmethod
     def get_by_urlid(self, urlid):
         return DBSession.query(Upload).filter(
-            Upload.id == URL_ENCODER.decode_url(urlid)).one()
+            Upload.id == URL_ENCODER.decode_url(urlid)).filter(
+            Upload.tickets > 0).one()
 
 
 class File(Base):

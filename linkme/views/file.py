@@ -31,6 +31,7 @@ def file_get(request):
         return HTTPNotFound()
 
     t = Token.create(upload.id)
+    upload.tickets -= 1
 
     request.response.headers['refresh'] = '5; URL={0}'.\
         format(request.route_url('file.serve', token=t.urlid))
