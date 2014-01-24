@@ -1,7 +1,7 @@
 from pyramid.view import view_config
 
 import logging
-log = logging.getLogger('linkme.views.home')
+log = logging.getLogger('shareonce.views.home')
 
 
 @view_config(route_name='home', renderer='home.mak')

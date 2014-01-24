@@ -7,7 +7,7 @@ from ..models import File, Upload, Token
 from sqlalchemy.orm.exc import NoResultFound
 
 import logging
-log = logging.getLogger('linkme.views.file')
+log = logging.getLogger('shareonce.views.file')
 
 
 @view_config(route_name='file.upload', renderer='json')

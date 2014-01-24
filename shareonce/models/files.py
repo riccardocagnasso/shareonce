@@ -8,14 +8,14 @@ import tempfile
 
 from . import Base, DBSession, URL_ENCODER
 from .token import Token
-import linkme
+import shareonce
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import relationship
 
 from datetime import datetime, timedelta
 
 import logging
-log = logging.getLogger('linkme.models.files')
+log = logging.getLogger('shareonce.models.files')
 
 
 class Upload(Base):
@@ -85,7 +85,7 @@ class File(Base):
         self.mime = unicode(magic.from_file(temp.name, magic.MAGIC_MIME))
         self.filename = filestorage.filename
 
-        shutil.move(temp.name, linkme.upload_directory.get_file_path('files',
+        shutil.move(temp.name, shareonce.upload_directory.get_file_path('files',
                     self.hash))
 
     @classmethod
@@ -106,7 +106,7 @@ class File(Base):
         return DBSession.query(File).filter(File.hash == hash).one()
 
     def get_file_path(self, action='read'):
-        return linkme.upload_directory.get_file_path(
+        return shareonce.upload_directory.get_file_path(
             'files', self.hash, action)
 
     def __repr__(self):

@@ -61,13 +61,13 @@ def main(global_config, **settings):
     #assetgen
     config.include('pyramid_assetgen')
 
-    config.add_static_view(name='s', path='linkme:static/dist',
+    config.add_static_view(name='s', path='shareonce:static/dist',
                                 cache_max_age=3600)
     config.add_assetgen_manifest(
-        'linkme:static/dist',
-        manifest_file="linkme:static/assets.json")
+        'shareonce:static/dist',
+        manifest_file="shareonce:static/assets.json")
 
-    config.add_static_view('static', 'linkme:static/static',
+    config.add_static_view('static', 'shareonce:static/static',
                            cache_max_age=3600)
 
     config.add_route('home', '/')

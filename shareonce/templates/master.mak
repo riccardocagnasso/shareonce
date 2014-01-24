@@ -12,8 +12,8 @@
     <meta name="author" content="Riccardo Cagnasso" />
     <meta name="copyright" content="Riccardo Cagnasso" />
 
-    <link rel="stylesheet" href="${request.static_path('linkme:static/dist/css/stylesheet.css')}" />
-    <script src="${request.static_path('linkme:static/dist/js/home.js')}"></script>
+    <link rel="stylesheet" href="${request.static_path('shareonce:static/dist/css/stylesheet.css')}" />
+    <script src="${request.static_path('shareonce:static/dist/js/home.js')}"></script>
   </head>
   <body>
 

@@ -6,7 +6,7 @@ from . import Base, DBSession, URL_ENCODER
 from datetime import datetime, timedelta
 
 import logging
-log = logging.getLogger('linkme.models.token')
+log = logging.getLogger('shareonce.models.token')
 
 
 class Token(Base):
