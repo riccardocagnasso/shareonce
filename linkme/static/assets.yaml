@@ -47,3 +47,7 @@ profile.dev:
     css.compress: false
     js.compress: false
     output.hashed: false
+profile.dist:
+    css.compress: true
+    js.compress: true
+    output.hashed: true

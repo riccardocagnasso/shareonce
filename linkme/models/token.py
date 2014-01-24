@@ -17,7 +17,7 @@ class Token(Base):
                       ondelete='cascade'))
     created = Column(DateTime, default=datetime.utcnow())
 
-    upload = relationship('Upload')
+    upload = relationship('Upload', backref='tokens')
 
     def __init__(self, uploadid):
         self.uploadid = uploadid

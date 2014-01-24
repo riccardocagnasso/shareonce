@@ -1,17 +1,18 @@
 from sqlalchemy import *
 
-import Image as PIL_image
 import magic
 import hashlib
-import os.path
 import shutil
 import transaction
 import tempfile
 
 from . import Base, DBSession, URL_ENCODER
+from .token import Token
 import linkme
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import relationship
+
+from datetime import datetime, timedelta
 
 import logging
 log = logging.getLogger('linkme.models.files')
@@ -26,8 +27,10 @@ class Upload(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     hash = Column(Unicode, ForeignKey('file.hash', onupdate='CASCADE',
                   ondelete='CASCADE'))
-    file = relationship('File')
+    file = relationship('File', backref='uploads')
     tickets = Column(Integer, default=1)
+
+    created = Column(DateTime, default=datetime.utcnow())
 
     def __init__(self, hash):
         self.hash = hash
@@ -109,3 +112,10 @@ class File(Base):
     def __repr__(self):
         return "File: hash={0}".\
             format(self.hash)
+
+    @classmethod
+    def find_unused(cls, delay=24):
+        return DBSession.query(File).join(Upload).outerjoin(Token)\
+            .filter(or_(Upload.created < (datetime.utcnow() - timedelta(hours=72)), 
+                and_(Upload.tickets < 1, Token.created <
+                    (datetime.utcnow() - timedelta(hours=delay)))))
