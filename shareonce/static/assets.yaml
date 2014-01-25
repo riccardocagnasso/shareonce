@@ -34,9 +34,6 @@ generate:
         - src/css/jquery.fileupload.css
         - src/foundation/fonts/foundation-icons.css
 
-    embed.path.root: src/foundation/fonts
-    embed.url.base: /.static/
-
 output.directory: dist
 output.hashed:  true
 output.manifest: assets.json
@@ -47,7 +44,3 @@ profile.dev:
     css.compress: false
     js.compress: false
     output.hashed: false
-profile.dist:
-    css.compress: true
-    js.compress: true
-    output.hashed: true
