@@ -4,6 +4,11 @@
     <div class="columns large-3">
 
         <div class="row">
+            <br>
+            <br>
+        </div>
+
+        <div class="row">
             <button id="upload-button" class="button success round fileinput-button">
                 <i class="fi-plus"></i>
                 <span>Select a file</span>
@@ -38,6 +43,16 @@
     <div class="columns large-3"></div>
 
     <div class="columns large-6">
-        Lorem ipsum Ea elit Duis voluptate adipisicing eiusmod laborum commodo dolore dolor labore cillum nostrud eu cupidatat culpa nulla et sit in in laboris pariatur sit dolor non fugiat proident proident velit ad nostrud adipisicing id irure proident voluptate laborum fugiat magna non dolor pariatur mollit fugiat ex in ut et velit Duis reprehenderit adipisicing aliquip do aliquip eiusmod laborum et aute consectetur ad dolore Ut deserunt non aliquip in sunt ullamco reprehenderit minim labore id Ut laboris aute anim do cillum Duis nostrud irure cupidatat in Excepteur mollit in enim proident exercitation Duis nisi commodo in non ad non consectetur ea labore sed Excepteur nostrud ullamco nisi enim dolore veniam nostrud culpa consequat adipisicing cupidatat aliquip voluptate ad sint veniam dolor do cupidatat tempor ut in dolor enim deserunt aute id in velit adipisicing eiusmod in ea mollit ut nulla id officia ea officia ea aliquip adipisicing ut ad voluptate enim mollit eiusmod deserunt anim Excepteur in nulla est in deserunt nisi qui amet.
+        <div class="explain">
+            <h3>How it works?</h3>
+            <br>
+            When you upload a file a link will be generated.<br>
+            <br>
+            The link will be valid for 72 hours.<br>
+            <br>
+            The link can be used to download the file.<br>
+            <br>
+            Once the link is used, is not valid anymore.<br>
+        </div>
     </div>
 </div>

@@ -32,6 +32,7 @@ generate:
         - src/foundation/css/normalize.css
         - src/foundation/css/foundation.css
         - src/css/jquery.fileupload.css
+        - src/css/custom.css
         - src/foundation/fonts/foundation-icons.css
 
 output.directory: dist
