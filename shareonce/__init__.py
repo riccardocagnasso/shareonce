@@ -71,6 +71,7 @@ def main(global_config, **settings):
                            cache_max_age=3600)
 
     config.add_route('home', '/')
+    config.add_route('privacy', '/privacy')
 
     config.add_route('file.upload', '/upload')
     config.add_route('file.get', '/gf/{uploadid}')

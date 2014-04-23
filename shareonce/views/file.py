@@ -41,6 +41,8 @@ def file_get(request):
 
 @view_config(route_name='file.serve')
 def file_serve(request):
+    serve_engine = request.registry.settings.get('serve_engine', 'local')
+
     try:
         t = Token.get_by_urlid(request.matchdict.get('token'))
     except NoResultFound:
@@ -48,12 +50,21 @@ def file_serve(request):
 
     f = t.upload.file
 
-    fr = FileResponse(
-        f.get_file_path(),
-        request=request,
-        content_type=str(f.mime)
-        )
+    if serve_engine == 'nginx':
+        print(f.get_file_path())
+        headers = request.response.headers
+        headers['Content-Disposition'] = str(f.filename)
+        headers['Content-Type'] = 'application/force-download'
+        headers['Accept-Ranges'] = 'bytes'
+        headers['X-Accel-Redirect'] = '/getfile/'+f.hash+';'
+        return request.response
+    else:
+        fr = FileResponse(
+            f.get_file_path(),
+            request=request,
+            content_type=str(f.mime)
+            )
 
-    fr.content_disposition = 'filename="{0}"'.format(str(f.filename))
+        fr.content_disposition = 'filename="{0}"'.format(str(f.filename))
 
-    return fr
+        return fr

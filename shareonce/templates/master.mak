@@ -14,6 +14,17 @@
 
     <link rel="stylesheet" href="${request.static_path('shareonce:static/dist/css/stylesheet.css')}" />
     <script src="${request.static_path('shareonce:static/dist/js/home.js')}"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-50302768-1', 'shareonce.net');
+      ga('send', 'pageview');
+
+    </script>
   </head>
   <body>
 
@@ -23,6 +34,12 @@
           <h1><a href="/"><i class="fi-upload-cloud"></i> ShareOnce</a></h1>
         </li>
       </ul>
+
+      <section class="top-bar-section">
+        <ul class="right">
+          <li><a href="${request.route_url('privacy')}">privacy</a></li>
+        </ul>
+      </section>
     </nav>
 
     <br>
@@ -35,6 +52,5 @@
       var doc = document.documentElement;
       doc.setAttribute('data-useragent', navigator.userAgent);
     </script>
-  
   </body>
 </html>

@@ -41,6 +41,7 @@ setup(name='shareonce',
       zip_safe=False,
       test_suite='shareonce',
       install_requires=requires,
+      scripts=['shareonce/scripts/clean_unused_files.py'],
       entry_points="""\
       [paste.app_factory]
       main = shareonce:main
