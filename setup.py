@@ -14,11 +14,10 @@ requires = [
     'pyramid_debugtoolbar',
     'zope.sqlalchemy',
     'waitress',
-    'psycopg2',
     'alembic',
     'assetgen',
     'pyramid_assetgen',
-    'PIL',
+    'Pillow',
     'python-magic',
     'pyramid-mako'
     ]
