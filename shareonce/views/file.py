@@ -1,8 +1,9 @@
 from pyramid.view import view_config
 from pyramid.response import FileResponse
 from pyramid.httpexceptions import HTTPNotFound
+from pyramid.response import Response
 
-from ..models import File, Upload, Token
+from ..models import File, Upload, Token, DBSession
 
 from sqlalchemy.orm.exc import NoResultFound
 
@@ -10,9 +11,47 @@ import logging
 log = logging.getLogger('shareonce.views.file')
 
 
+from socketio.namespace import BaseNamespace
+from socketio import socketio_manage
+from socketio.mixins import BroadcastMixin
+
+
+class FileNamespace(BaseNamespace):
+    def on_upload(self, data):
+        log.debug('upload')
+        self.file = File(data)
+
+    def on_chunk(self, chunk):
+        if self.file.addChunk(chunk):
+            log.debug('filedone')
+            self.emit('filedone')
+
+            DBSession.add(self.file)
+
+            u = Upload.create(self.file.hash)
+
+            self.emit(
+                'filedone',
+                {'url': request.route_url('file.get', uploadid=u.urlid)})
+            self.file = None
+        else:
+            log.debug('chunkdone')
+            self.emit('chunkdone')
+
+
+@view_config(route_name='socket_io')
+def socketio_service(request):
+    socketio_manage(request.environ, {'/file': FileNamespace},
+                    request)
+
+    return request.response
+
+
 @view_config(route_name='file.upload', renderer='json')
 def file_upload(request):
-
+    log.debug(request.headers.items())
+    log.debug(request.headers.get('content-range'))
+    return {}
     for item, filestorage in request.POST.items():
         f = File.create(filestorage)
 

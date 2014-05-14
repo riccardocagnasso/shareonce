@@ -24,6 +24,7 @@ generate:
         - src/foundation/js/foundation/foundation.offcanvas.js
         - src/foundation/js/foundation/foundation.orbit.js
         - src/foundation/js/foundation/foundation.topbar.js
+        - src/js/socket.io.js
         - src/upload.coffee
         - src/copy.coffee
 

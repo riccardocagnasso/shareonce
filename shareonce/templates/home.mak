@@ -7,7 +7,6 @@
             <br>
             <br>
         </div>
-
         <div class="row">
             <button id="upload-button" class="button success round fileinput-button">
                 <i class="fi-plus"></i>

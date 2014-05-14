@@ -77,5 +77,7 @@ def main(global_config, **settings):
     config.add_route('file.get', '/gf/{uploadid}')
     config.add_route('file.serve', '/file/{token}')
 
+    config.add_route('socket_io', 'socket.io/*remaining')
+
     config.scan()
     return config.make_wsgi_app()

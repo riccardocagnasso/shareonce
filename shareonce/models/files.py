@@ -1,5 +1,6 @@
 from sqlalchemy import *
 
+import base64
 import magic
 import hashlib
 import shutil
@@ -69,24 +70,37 @@ class File(Base):
     hash = Column(Unicode, primary_key=True)
     mime = Column(Unicode, nullable=False)
     filename = Column(Unicode, nullable=False)
+    filesize = Column(Integer, nullable=False)
 
-    def __init__(self, filestorage):
+    def __init__(self, data):
         #calculate the hash in efficent way
-        temp = tempfile.NamedTemporaryFile(delete=False, mode='w')
+        self.filename = data.get('filename')
+        self.mime = data.get('type')
+        self.filesize = data.get('size')
 
-        s = hashlib.sha256()
-        for b in filestorage.file:
-            s.update(b)
-            temp.write(b)
+        self.temp = tempfile.NamedTemporaryFile(delete=False, mode='w')
+        self.hash_in_progress = hashlib.sha256()
+        self.byte_added = 0
 
-        temp.close()
+    def addChunk(self, chunk):
+        chunk = base64.b64decode(chunk)
+        log.debug(type(chunk))
+        self.hash_in_progress.update(chunk)
+        self.temp.write(chunk)
+        self.byte_added += len(chunk)
 
-        self.hash = unicode(s.hexdigest())
-        self.mime = unicode(magic.from_file(temp.name, magic.MAGIC_MIME))
-        self.filename = filestorage.filename
+        if self.byte_added >= self.filesize:
+            self.temp.close()
+            self.hash = unicode(self.hash_in_progress.hexdigest())
+            self.mime = unicode(magic.from_file(self.temp.name,
+                                                magic.MAGIC_MIME))
+            shutil.move(
+                self.temp.name,
+                shareonce.upload_directory.get_file_path('files', self.hash))
 
-        shutil.move(temp.name, shareonce.upload_directory.get_file_path('files',
-                    self.hash))
+            return True
+        else:
+            return False
 
     @classmethod
     def create(cls, filestorage):
