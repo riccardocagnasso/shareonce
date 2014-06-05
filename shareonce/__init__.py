@@ -73,7 +73,6 @@ def main(global_config, **settings):
     config.add_route('home', '/')
     config.add_route('privacy', '/privacy')
 
-    config.add_route('file.upload', '/upload')
     config.add_route('file.get', '/gf/{uploadid}')
     config.add_route('file.serve', '/file/{token}')
 

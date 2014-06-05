@@ -83,8 +83,8 @@ class File(Base):
         self.byte_added = 0
 
     def addChunk(self, chunk):
+        chunk = chunk.split(",", 1)[1]
         chunk = base64.b64decode(chunk)
-        log.debug(type(chunk))
         self.hash_in_progress.update(chunk)
         self.temp.write(chunk)
         self.byte_added += len(chunk)
@@ -101,6 +101,16 @@ class File(Base):
             return True
         else:
             return False
+
+    def save(self):
+        DBSession.add(self)
+        try:
+            DBSession.flush()
+        except IntegrityError as e:
+            log.debug(e)
+            transaction.abort()
+            return File.get(self.hash)
+        return self
 
     @classmethod
     def create(cls, filestorage):

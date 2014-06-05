@@ -1,4 +1,5 @@
 from pyramid.view import view_config
+from pyramid.request import Request
 from pyramid.response import FileResponse
 from pyramid.httpexceptions import HTTPNotFound
 from pyramid.response import Response
@@ -18,24 +19,20 @@ from socketio.mixins import BroadcastMixin
 
 class FileNamespace(BaseNamespace):
     def on_upload(self, data):
-        log.debug('upload')
         self.file = File(data)
 
     def on_chunk(self, chunk):
         if self.file.addChunk(chunk):
-            log.debug('filedone')
-            self.emit('filedone')
+            f = self.file.save()
 
-            DBSession.add(self.file)
-
-            u = Upload.create(self.file.hash)
+            u = Upload.create(f.hash)
 
             self.emit(
                 'filedone',
-                {'url': request.route_url('file.get', uploadid=u.urlid)})
+                {'url': Request.blank('/').route_url(
+                    'file.get', uploadid=u.urlid)})
             self.file = None
         else:
-            log.debug('chunkdone')
             self.emit('chunkdone')
 
 
@@ -45,21 +42,6 @@ def socketio_service(request):
                     request)
 
     return request.response
-
-
-@view_config(route_name='file.upload', renderer='json')
-def file_upload(request):
-    log.debug(request.headers.items())
-    log.debug(request.headers.get('content-range'))
-    return {}
-    for item, filestorage in request.POST.items():
-        f = File.create(filestorage)
-
-        u = Upload.create(f.hash)
-
-    return {
-        'url': request.route_url('file.get', uploadid=u.urlid)
-    }
 
 
 @view_config(route_name='file.get', renderer='getfile.mak')
