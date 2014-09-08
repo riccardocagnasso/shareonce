@@ -92,8 +92,11 @@ class File(Base):
         if self.byte_added >= self.filesize:
             self.temp.close()
             self.hash = unicode(self.hash_in_progress.hexdigest())
-            self.mime = unicode(magic.from_file(self.temp.name,
-                                                magic.MAGIC_MIME))
+            #self.mime = unicode(magic.from_file(self.temp.name,
+            #                                    magic.MAGIC_MIME))
+            #temporary workaround
+            self.mime = ''
+
             shutil.move(
                 self.temp.name,
                 shareonce.upload_directory.get_file_path('files', self.hash))
@@ -140,6 +143,6 @@ class File(Base):
     @classmethod
     def find_unused(cls, delay=24):
         return DBSession.query(File).join(Upload).outerjoin(Token)\
-            .filter(or_(Upload.created < (datetime.utcnow() - timedelta(hours=72)), 
+            .filter(or_(Upload.created < (datetime.utcnow() - timedelta(hours=72)),
                 and_(Upload.tickets < 1, Token.created <
                     (datetime.utcnow() - timedelta(hours=delay)))))

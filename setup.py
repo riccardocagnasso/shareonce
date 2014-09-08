@@ -19,7 +19,9 @@ requires = [
     'pyramid_assetgen',
     'Pillow',
     'python-magic',
-    'pyramid-mako'
+    'pyramid-mako',
+    'gevent',
+    'gevent-socketio'
     ]
 
 setup(name='shareonce',

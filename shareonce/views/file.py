@@ -16,24 +16,43 @@ from socketio.namespace import BaseNamespace
 from socketio import socketio_manage
 from socketio.mixins import BroadcastMixin
 
+import transaction
+
+max_size = 20 * pow(2, 20)
 
 class FileNamespace(BaseNamespace):
     def on_upload(self, data):
+        log.debug('on upload')
         self.file = File(data)
+        self.size = 0
+
+        transaction.commit()
 
     def on_chunk(self, chunk):
-        if self.file.addChunk(chunk):
-            f = self.file.save()
-
-            u = Upload.create(f.hash)
-
-            self.emit(
-                'filedone',
-                {'url': Request.blank('/').route_url(
-                    'file.get', uploadid=u.urlid)})
+        log.debug('on chunk')
+        self.size += len(chunk)
+        if self.size > max_size:
             self.file = None
+            self.size = 0
+            self.emit('toobig')
+            log.debug('TOO BIG! EXTERMINATE! EXTERMINATE!')
+            self.disconnect()
         else:
-            self.emit('chunkdone')
+            if self.file.addChunk(chunk):
+                f = self.file.save()
+
+                u = Upload.create(f.hash)
+
+                self.emit(
+                    'filedone',
+                    {'url': self.request.route_url(
+                        'file.get', uploadid=u.urlid)})
+                self.file = None
+                self.size = 0
+            else:
+                self.emit('chunkdone')
+
+            transaction.commit()
 
 
 @view_config(route_name='socket_io')
@@ -49,6 +68,7 @@ def file_get(request):
     try:
         upload = Upload.get_by_urlid(request.matchdict.get('uploadid'))
     except NoResultFound:
+        log.debug('NOT FOUND')
         return HTTPNotFound()
 
     t = Token.create(upload.id)

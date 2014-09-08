@@ -1,6 +1,6 @@
-socket = io.connect '/file'
+max_file_size = 20*Math.pow(2, 20)
 
-chunkedReaderIterator = (file) -> 
+chunkedReaderIterator = (file) ->
     obj =
         file: file
         init: ->
@@ -8,8 +8,10 @@ chunkedReaderIterator = (file) ->
             this.maxChunkSize = 300 * (Math.pow 2, 10)
             this.chunks = Math.ceil (this.file.size / this.maxChunkSize)
 
-            socket.removeAllListeners 'chunkdone'
-            socket.on 'chunkdone', ->
+        init_socket: ->
+            this.socket = io.connect '/file'
+            that = this
+            this.socket.on 'chunkdone', ->
                 progress = parseInt (obj.i / obj.chunks * 100), 10
                 ($ '#uploadbar span').css 'width', progress+'%'
                 ($ '#progressmeter').html progress+'%'
@@ -17,8 +19,7 @@ chunkedReaderIterator = (file) ->
                 obj.next()
 
 
-            socket.removeAllListeners 'filedone'
-            socket.on 'filedone', (data) ->
+            this.socket.on 'filedone', (data) ->
                 progress = parseInt (obj.i / obj.chunks * 100), 10
                 ($ '#uploadbar span').css 'width', progress+'%'
                 ($ '#progressmeter').html progress+'%'
@@ -26,15 +27,28 @@ chunkedReaderIterator = (file) ->
                 ($ '#url').val data.url
                 ($ '#copy-button').removeClass 'disabled'
                 ($ '#upload-button').removeClass 'disabled'
+                that.socket.disconnect()
 
-                #socket.disconnect()
+            this.socket.on 'toobig', ->
+                progress = 0
+                ($ '#uploadbar span').css 'width', progress+'%'
+                ($ '#progressmeter').html progress+'%'
+
+                ($ '#url').val 'ERROR! FILE TOO BIG! EXTERMINATE! EXTERMINATE!'
+                ($ '#copy-button').removeClass 'disabled'
+                ($ '#upload-button').removeClass 'disabled'
+                that.socket.disconnect()
 
         start: ->
-            socket.emit 'upload', 
-                filename: this.file.name
-                size: this.file.size
-                mime: this.file.type
-            this.next()
+            if this.file.size <= max_file_size
+                this.init_socket()
+                this.socket.emit 'upload',
+                    filename: this.file.name
+                    size: this.file.size
+                    mime: this.file.type
+                this.next()
+            else
+                console.log('tooo big')
 
         next: ->
             if this.i >= this.chunks
@@ -46,12 +60,13 @@ chunkedReaderIterator = (file) ->
                 this.uploadChunk(chunk)
                 this.i += 1
                 this.i
+
         uploadChunk: (chunk) ->
             reader = new FileReader()
 
             that = this
             reader.onload = (evt) ->
-                socket.emit 'chunk', evt.target.result
+                that.socket.emit 'chunk', evt.target.result
 
             reader.readAsDataURL chunk
 
